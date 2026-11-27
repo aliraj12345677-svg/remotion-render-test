@@ -1,9 +1,24 @@
 import React from "react";
-import { Composition } from "remotion";
+import { AbsoluteFill, Audio, Composition, staticFile } from "remotion";
 import "./fonts";
 import { Main } from "./Main";
+import job from "./job.json";
 
-// 48 s at 30 fps for the sample SRT. The app will set this from the SRT's last cue.
+// Size, length and audio come from src/job.json, written by the app for every job.
+const Entry: React.FC = () => (
+  <AbsoluteFill>
+    <Main />
+    {job.hasAudio ? <Audio src={staticFile("voiceover.mp3")} /> : null}
+  </AbsoluteFill>
+);
+
 export const Root: React.FC = () => (
-  <Composition id="Main" component={Main} durationInFrames={1440} fps={30} width={1920} height={1080} />
+  <Composition
+    id="Main"
+    component={Entry}
+    durationInFrames={job.durationInFrames}
+    fps={job.fps}
+    width={job.width}
+    height={job.height}
+  />
 );
